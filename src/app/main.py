@@ -8,7 +8,7 @@ from uvicorn.config import Config
 from uvicorn.server import Server
 
 from app.config import settings
-from app.dashboard import dashboard_app
+from app.dashboard import dashboard_app, set_socketio_server
 from app.events import register_events
 from app.logging_config import logger
 
@@ -26,6 +26,7 @@ def create_socketio_server() -> socketio.AsyncServer:
         engineio_logger=False,
     )
     register_events(sio)
+    set_socketio_server(sio)
     return sio
 
 

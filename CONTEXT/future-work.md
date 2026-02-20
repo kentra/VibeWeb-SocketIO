@@ -7,7 +7,10 @@
 - ~~Documentation~~ - Added README.md and CHANGELOG.md
 - ~~Web dashboard~~ - Added dashboard at `/` showing active connections with client IPs
 - ~~Connection tracking~~ - Added ConnectionManager to track sessions and room membership
-- ~~Test coverage~~ - Added 38 tests across 4 test files
+- ~~Test coverage~~ - Added 56 tests across 5 test files
+- ~~Real-time WebSocket updates~~ - Dashboard now uses SocketIO for instant updates
+- ~~Disconnect clients from dashboard~~ - Added `/api/disconnect/<sid>` endpoint
+- ~~Message traffic logging~~ - Added `/api/logs` endpoint with MessageLogger
 
 ## High Priority
 
@@ -62,13 +65,16 @@ sio = socketio.AsyncServer(
 ## Nice to Have
 
 ### 8. Admin Dashboard Enhancements
-**Current:** Basic web dashboard exists at `/` showing connections
+**Completed:**
+- ✅ Real-time WebSocket updates (was polling every 5s)
+- ✅ Ability to disconnect clients from dashboard
+- ✅ View message traffic/logs
+
 **Future improvements:**
-- Real-time WebSocket updates (currently polls every 5s)
-- Ability to disconnect clients from dashboard
-- Broadcast admin messages to all clients
-- View message traffic/logs
 - Authentication for dashboard access
+- Broadcast admin messages to all clients
+- Filter/search message logs
+- Export message logs
 
 ### 9. Message Persistence
 - Store messages in database
@@ -117,11 +123,12 @@ class ChatHandlers:
 ## Testing Improvements
 
 ### Integration Tests
-**Current:** Unit tests exist for connections, dashboard, events
+**Current:** Unit tests exist for connections, dashboard, events, and message logging
 **Future:**
 - Add integration tests with actual SocketIO client
 - Test full connection lifecycle
 - Test room operations end-to-end
+- Test admin events delivery
 
 ### Load Testing
 - Add locust or artillery tests

@@ -32,6 +32,103 @@ JSON API for connection data.
 
 ---
 
+### `GET /api/logs`
+JSON API for message traffic logs.
+
+**Returns:**
+```json
+{
+  "count": 10,
+  "logs": [
+    {
+      "event": "message",
+      "from": "abc123",
+      "room": null,
+      "data": {"text": "hello"},
+      "timestamp": "2026-02-20T12:00:00+00:00"
+    }
+  ]
+}
+```
+
+---
+
+### `POST /api/logs/clear`
+Clear all message logs.
+
+**Returns:**
+```json
+{"status": "cleared"}
+```
+
+---
+
+### `POST /api/disconnect/<sid>`
+Disconnect a specific client by session ID.
+
+**Returns:**
+```json
+{"status": "disconnected", "sid": "abc123"}
+```
+
+**Errors:**
+- `404` - Client not found
+- `500` - Server not initialized
+
+---
+
+## Admin SocketIO Events
+
+## Admin SocketIO Events
+
+Dashboard clients should join `admin_room` to receive real-time updates:
+
+```javascript
+socket.emit('join_room', 'admin_room');
+```
+
+### `admin:connection`
+Emitted when a client connects.
+
+**Data:**
+```json
+{
+  "sid": "abc123",
+  "client_ip": "192.168.1.100",
+  "connected_at": "2026-02-20T12:00:00+00:00"
+}
+```
+
+---
+
+### `admin:disconnection`
+Emitted when a client disconnects.
+
+**Data:**
+```json
+{"sid": "abc123"}
+```
+
+---
+
+### `admin:message`
+Emitted for all message events.
+
+**Data:**
+```json
+{
+  "event": "message",
+  "from": "abc123",
+  "room": "general",
+  "data": {"text": "hello"},
+  "timestamp": "2026-02-20T12:00:00+00:00"
+}
+```
+
+**Events logged:** `message`, `newMessage`, `broadcast`, `join_room`, `leave_room`, `room_message`
+
+---
+
 ## SocketIO Connection Events
 
 ### `connect`

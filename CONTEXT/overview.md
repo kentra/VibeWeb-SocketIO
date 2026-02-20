@@ -15,11 +15,12 @@ Production-ready SocketIO server built with Python, python-socketio, and uvicorn
 src/app/
 ├── __init__.py         # Package init, version
 ├── config.py           # Settings via pydantic-settings
-├── connections.py      # Connection manager for tracking active sessions
+├── connections.py      # Connection manager and ADMIN_ROOM constant
 ├── dashboard.py        # Web dashboard and HTTP API endpoints
-├── events.py           # SocketIO event handlers
+├── events.py           # SocketIO event handlers with admin events
 ├── logging_config.py   # Logging setup
-└── main.py             # Server creation and entry point
+├── main.py             # Server creation and entry point
+└── message_log.py      # Message traffic logger
 
 k8s/
 ├── configmap.yaml      # Kubernetes ConfigMap
@@ -31,7 +32,8 @@ tests/
 ├── test_connections.py # Connection manager tests
 ├── test_dashboard.py   # Dashboard and API tests
 ├── test_events.py      # Event logic tests
-└── test_main.py        # Main app tests
+├── test_main.py        # Main app tests
+└── test_message_log.py # Message logger tests
 
 CONTEXT/                 # LLM context documentation
 ```

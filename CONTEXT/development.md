@@ -31,13 +31,14 @@ Web dashboard available at `http://localhost:5556/` showing active connections.
 ## Testing
 
 ```bash
-# Run all tests (38 tests across 4 test files)
+# Run all tests (56 tests across 5 test files)
 uv run pytest tests/ -v
 
 # Run specific test file
 uv run pytest tests/test_connections.py -v
 uv run pytest tests/test_dashboard.py -v
 uv run pytest tests/test_events.py -v
+uv run pytest tests/test_message_log.py -v
 
 # Run with coverage (if needed)
 uv run pytest tests/ --cov=app
@@ -45,9 +46,10 @@ uv run pytest tests/ --cov=app
 
 ### Test Files
 - `test_connections.py` - Tests for ConnectionManager and Connection dataclass
-- `test_dashboard.py` - Tests for HTML dashboard and JSON API
+- `test_dashboard.py` - Tests for HTML dashboard, JSON API, and new admin features
 - `test_events.py` - Tests for event logic, validation, and response formats
 - `test_main.py` - Tests for app creation and settings
+- `test_message_log.py` - Tests for MessageLogger and MessageLog dataclass
 
 ## Linting
 

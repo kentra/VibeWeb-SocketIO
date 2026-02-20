@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 
+ADMIN_ROOM = "admin_room"
+
 
 @dataclass
 class Connection:
