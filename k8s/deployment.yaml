@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vibeweb-socketio
+  labels:
+    app: vibeweb-socketio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vibeweb-socketio
+  template:
+    metadata:
+      labels:
+        app: vibeweb-socketio
+    spec:
+      containers:
+        - name: socketio
+          image: vibeweb-socketio:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: vibeweb-socketio-config
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

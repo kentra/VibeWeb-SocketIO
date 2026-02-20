@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vibeweb-socketio-config
+data:
+  SOCKETIO_HOST: "0.0.0.0"
+  SOCKETIO_PORT: "8000"
+  SOCKETIO_CORS_ORIGINS: "*"
+  SOCKETIO_LOGGER_LEVEL: "INFO"

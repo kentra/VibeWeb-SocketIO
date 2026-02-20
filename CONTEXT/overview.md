@@ -19,6 +19,12 @@ src/app/
 ├── logging_config.py   # Logging setup
 └── main.py             # Server creation and entry point
 
+k8s/
+├── configmap.yaml      # Kubernetes ConfigMap
+├── deployment.yaml     # Kubernetes Deployment
+├── service.yaml        # Kubernetes Service
+└── ingress.yaml        # Kubernetes Ingress
+
 tests/
 └── test_main.py        # Basic tests
 
@@ -41,6 +47,26 @@ uv run pytest tests/ -v
 
 # Lint
 uv run ruff check src/
+```
+
+## Docker
+
+```bash
+# Build image
+docker build -t vibeweb-socketio:latest .
+
+# Run container
+docker run -p 8000:8000 vibeweb-socketio:latest
+```
+
+## Kubernetes
+
+```bash
+# Deploy to cluster
+kubectl apply -f k8s/
+
+# Check status
+kubectl get pods -l app=vibeweb-socketio
 ```
 
 ## Default Configuration

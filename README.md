@@ -177,6 +177,37 @@ socket.on('room_message', (data) => {
 });
 ```
 
+## Kubernetes Deployment
+
+### Build and Push Image
+
+```bash
+docker build -t vibeweb-socketio:latest .
+docker tag vibeweb-socketio:latest your-registry/vibeweb-socketio:latest
+docker push your-registry/vibeweb-socketio:latest
+```
+
+### Deploy to Kubernetes
+
+```bash
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/ingress.yaml
+```
+
+### Verify Deployment
+
+```bash
+kubectl get pods -l app=vibeweb-socketio
+kubectl get services
+kubectl logs -l app=vibeweb-socketio
+```
+
+### Configuration
+
+Edit `k8s/configmap.yaml` to customize environment variables. The ingress assumes an nginx ingress controller with WebSocket support.
+
 ## Project Structure
 
 ```
@@ -186,6 +217,12 @@ src/app/
 ├── events.py           # SocketIO event handlers
 ├── logging_config.py   # Logging setup
 └── main.py             # Server entry point
+
+k8s/
+├── configmap.yaml      # Kubernetes ConfigMap
+├── deployment.yaml     # Kubernetes Deployment
+├── service.yaml        # Kubernetes Service
+└── ingress.yaml        # Kubernetes Ingress
 
 tests/
 └── test_main.py        # Tests

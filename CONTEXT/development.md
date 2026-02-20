@@ -94,3 +94,51 @@ def on_message(data):
 
 sio.emit("message", {"text": "hello"})
 ```
+
+## Docker
+
+```bash
+# Build image
+docker build -t vibeweb-socketio:latest .
+
+# Run container locally
+docker run -p 8000:8000 vibeweb-socketio:latest
+
+# Run with custom config
+docker run -p 8000:8000 -e SOCKETIO_LOGGER_LEVEL=DEBUG vibeweb-socketio:latest
+```
+
+## Kubernetes Deployment
+
+```bash
+# Apply all manifests
+kubectl apply -f k8s/
+
+# Or apply individually
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/ingress.yaml
+
+# View deployment status
+kubectl get pods -l app=vibeweb-socketio
+kubectl logs -l app=vibeweb-socketio -f
+
+# Scale deployment
+kubectl scale deployment vibeweb-socketio --replicas=3
+```
+
+### Kubernetes Configuration
+
+Edit `k8s/configmap.yaml` to change environment variables:
+```yaml
+data:
+  SOCKETIO_HOST: "0.0.0.0"
+  SOCKETIO_PORT: "8000"
+  SOCKETIO_CORS_ORIGINS: "*"
+```
+
+Update the deployment image in `k8s/deployment.yaml`:
+```yaml
+image: your-registry/vibeweb-socketio:latest
+```

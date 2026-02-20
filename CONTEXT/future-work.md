@@ -1,5 +1,11 @@
 # Future Work & Improvements
 
+## Completed
+
+- ~~Docker support~~ - Added Dockerfile with multi-stage build
+- ~~Kubernetes deployment~~ - Added k8s manifests (ConfigMap, Deployment, Service, Ingress)
+- ~~Documentation~~ - Added README.md and CHANGELOG.md
+
 ## High Priority
 
 ### 1. Authentication System
@@ -41,9 +47,11 @@ sio = socketio.AsyncServer(
 - Monitor performance
 
 ### 6. Health Check Endpoint
-- Add HTTP health check route
+- Add HTTP health check route (current `ping` is SocketIO event)
 - Return server status, connection count
-- Useful for load balancers
+- Useful for load balancers and Kubernetes probes
+
+**Note:** Kubernetes currently uses TCP socket probes. HTTP endpoint would be better.
 
 ### 7. Namespace Support
 - Currently only root namespace `/`
@@ -112,3 +120,47 @@ class ChatHandlers:
 - Add locust or artillery tests
 - Benchmark message throughput
 - Test connection limits
+
+## Kubernetes Improvements
+
+### Horizontal Pod Autoscaler
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: vibeweb-socketio-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vibeweb-socketio
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+```
+
+### Redis for Multi-Pod Support
+**Required for horizontal scaling** - Without Redis, rooms and messages won't sync across pods.
+
+### Pod Disruption Budget
+```yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: vibeweb-socketio-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: vibeweb-socketio
+```
+
+### Network Policies
+- Restrict ingress/egress traffic
+- Allow only from trusted namespaces
