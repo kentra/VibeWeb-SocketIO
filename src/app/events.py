@@ -32,7 +32,15 @@ def register_events(sio: socketio.AsyncServer) -> None:
     @sio.event
     async def message(sid: str, data: Any) -> Any:
         logger.info(f"Message from {sid}: {data}")
-        await sio.emit("message", {"from": sid, "data": data}, skip_sid=sid)
+        # await sio.emit("message", {"from": sid, "data": data}, skip_sid=sid)
+        await sio.emit("message", data, skip_sid=sid)
+        return {"status": "received", "sid": sid}
+
+    @sio.event
+    async def newMessage(sid: str, data: Any) -> Any:
+        logger.info(f"Message from {sid}: {data}")
+        # await sio.emit("message", {"from": sid, "data": data}, skip_sid=sid)
+        await sio.emit("newMessage", data, skip_sid=sid)
         return {"status": "received", "sid": sid}
 
     @sio.event
