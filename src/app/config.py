@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     )
 
     host: str = "0.0.0.0"
-    port: int = 5556
+    port: int = 8000
     cors_origins: str = "*"
     cors_methods: str = "GET,POST,PUT,DELETE,OPTIONS"
     cors_headers: str = "Content-Type,Authorization"

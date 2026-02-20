@@ -20,20 +20,33 @@ main.py:create_app()
 - Environment variables prefixed with `SOCKETIO_`
 - Single `settings` instance exported
 
-### 2. Event Handlers (events.py)
+### 2. Connection Manager (connection_manager.py)
+- Tracks all active connections in memory
+- Stores connection metadata (connect time, rooms, client info)
+- Provides connection data for admin dashboard
+- Singleton `connection_manager` instance
+
+### 3. Event Handlers (events.py)
 - All event handlers registered via `register_events(sio)`
 - Handlers are defined as nested functions with `@sio.event` decorator
 - Session management via `sio.save_session()` / `sio.get_session()`
+- Updates `ConnectionManager` on connect/disconnect/room events
+- Emits admin events for dashboard updates
 
-### 3. Logging (logging_config.py)
+### 4. Logging (logging_config.py)
 - Structured logging with timestamps
 - Configurable log level via `SOCKETIO_LOGGER_LEVEL`
 - Single logger instance for consistent formatting
 
-### 4. Server (main.py)
+### 5. Server (main.py)
 - `create_socketio_server()` - Creates configured AsyncServer
 - `create_app()` - Creates ASGI app for uvicorn
 - `run_server()` - Entry point with signal handling
+
+### 6. Dashboard (dashboard/)
+- Reflex-based web GUI for monitoring
+- Connects to SocketIO server as admin client
+- Real-time connection updates
 
 ## ASGI Application
 The server runs as an ASGI application using:

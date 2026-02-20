@@ -144,3 +144,89 @@ Health check ping.
 ```json
 {"status": "pong", "sid": "<sid>"}
 ```
+
+---
+
+## Admin Events
+
+Admin events are used by the dashboard for monitoring. Admin clients must emit `admin_subscribe` to join the admin room and receive updates.
+
+### `admin_subscribe`
+Subscribe to admin events.
+
+**Client emits:**
+```json
+"admin_subscribe"
+```
+
+**Server response:**
+```json
+{
+  "status": "subscribed",
+  "connections": [
+    {
+      "sid": "<sid>",
+      "connected_at": "2026-02-20T12:00:00",
+      "rooms": ["room1"],
+      "client_info": {
+        "user_agent": "Mozilla/5.0...",
+        "remote_addr": "127.0.0.1",
+        "auth": null
+      }
+    }
+  ],
+  "total": 5
+}
+```
+
+---
+
+### `admin_get_connections`
+Get all current connections.
+
+**Client emits:**
+```json
+"admin_get_connections"
+```
+
+**Server response:**
+```json
+{
+  "connections": [...],
+  "total": 5
+}
+```
+
+---
+
+### `admin:connection_update` (Server Event)
+Broadcast to admin room on connect/disconnect.
+
+**Server emits:**
+```json
+{
+  "type": "connect" | "disconnect",
+  "connection": {
+    "sid": "<sid>",
+    "connected_at": "2026-02-20T12:00:00",
+    "rooms": [],
+    "client_info": {...}
+  },
+  "total": 5
+}
+```
+
+---
+
+### `admin:room_update` (Server Event)
+Broadcast to admin room on room join/leave.
+
+**Server emits:**
+```json
+{
+  "type": "join" | "leave",
+  "sid": "<sid>",
+  "room": "<room_name>",
+  "connection": {...}
+}
+```

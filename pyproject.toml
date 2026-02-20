@@ -18,6 +18,10 @@ dev = [
     "pytest-asyncio>=0.23.0",
     "ruff>=0.2.0",
 ]
+dashboard = [
+    "reflex>=0.5.0",
+    "python-socketio[client]>=5.11.0",
+]
 
 [project.scripts]
 server = "app.main:run_server"

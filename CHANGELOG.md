@@ -10,6 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - CHANGELOG.md for tracking project changes
 - `.dockerignore` for optimized Docker builds
 - Updated CONTEXT documentation with Docker and Kubernetes sections
+- Connection tracking via `ConnectionManager` class
+- Admin events for real-time connection monitoring (`admin_subscribe`, `admin_get_connections`)
+- Web GUI dashboard built with Reflex framework to monitor active connections
+- Real-time connection updates in dashboard (connect/disconnect/room changes)
+
+### Changed
+- Events now track connections in `ConnectionManager`
+- Room join/leave events update connection tracking
 
 ## [0.1.0] - 2026-02-20
 

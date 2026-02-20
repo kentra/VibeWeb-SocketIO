@@ -13,22 +13,30 @@ Production-ready SocketIO server built with Python, python-socketio, and uvicorn
 ## Project Structure
 ```
 src/app/
-├── __init__.py         # Package init, version
-├── config.py           # Settings via pydantic-settings
-├── events.py           # SocketIO event handlers
-├── logging_config.py   # Logging setup
-└── main.py             # Server creation and entry point
+├── __init__.py              # Package init, version
+├── config.py                # Settings via pydantic-settings
+├── connection_manager.py    # Connection tracking
+├── events.py                # SocketIO event handlers
+├── logging_config.py        # Logging setup
+└── main.py                  # Server creation and entry point
+
+dashboard/
+├── dashboard/
+│   ├── __init__.py          # Package init
+│   └── dashboard.py         # Reflex web dashboard
+├── rxconfig.py              # Reflex configuration
+└── requirements.txt         # Dashboard dependencies
 
 k8s/
-├── configmap.yaml      # Kubernetes ConfigMap
-├── deployment.yaml     # Kubernetes Deployment
-├── service.yaml        # Kubernetes Service
-└── ingress.yaml        # Kubernetes Ingress
+├── configmap.yaml           # Kubernetes ConfigMap
+├── deployment.yaml          # Kubernetes Deployment
+├── service.yaml             # Kubernetes Service
+└── ingress.yaml             # Kubernetes Ingress
 
 tests/
-└── test_main.py        # Basic tests
+└── test_main.py             # Basic tests
 
-CONTEXT/                 # LLM context documentation
+CONTEXT/                      # LLM context documentation
 ```
 
 ## Quick Start
@@ -48,6 +56,25 @@ uv run pytest tests/ -v
 # Lint
 uv run ruff check src/
 ```
+
+## Dashboard
+
+```bash
+# Install dashboard dependencies
+uv sync --all-extras
+
+# Run the server (in one terminal)
+uv run server
+
+# Run the dashboard (in another terminal)
+cd dashboard && reflex run
+```
+
+The dashboard provides real-time monitoring of:
+- Active connections
+- Room membership per connection
+- Client information (user agent, IP)
+- Connection/disconnection events
 
 ## Docker
 

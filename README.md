@@ -10,6 +10,8 @@ A production-ready Socket.IO server built with Python for real-time bidirectiona
 - Configurable CORS support
 - Graceful shutdown handling
 - Health check via ping/pong
+- Connection tracking with admin events
+- Web dashboard for monitoring active connections
 
 ## Requirements
 
@@ -151,6 +153,31 @@ socket.emit('ping');
 // Response: { status: 'pong', sid: '<sid>' }
 ```
 
+### Admin Events
+
+#### `admin_subscribe`
+Subscribe to admin events for real-time monitoring.
+
+```javascript
+socket.emit('admin_subscribe');
+// Response: { status: 'subscribed', connections: [...], total: 5 }
+```
+
+#### `admin_get_connections`
+Get all current connections.
+
+```javascript
+socket.emit('admin_get_connections');
+// Response: { connections: [...], total: 5 }
+```
+
+#### Server Events for Admins
+
+Admins receive these events after subscribing:
+
+- `admin:connection_update` - On client connect/disconnect
+- `admin:room_update` - On room join/leave events
+
 ## Example Client
 
 ```javascript
@@ -176,6 +203,30 @@ socket.on('room_message', (data) => {
   console.log('Room message:', data);
 });
 ```
+
+## Dashboard
+
+A web GUI dashboard built with [Reflex](https://reflex.dev/) for monitoring active connections.
+
+### Run Dashboard
+
+```bash
+# Terminal 1: Start the SocketIO server
+uv run server
+
+# Terminal 2: Start the dashboard
+cd dashboard && reflex run
+```
+
+The dashboard will be available at `http://localhost:3001`.
+
+### Features
+
+- Real-time connection count
+- View all active connections
+- See client information (user agent, IP address)
+- Track room membership per connection
+- Connection/disconnection event notifications
 
 ## Kubernetes Deployment
 
@@ -212,20 +263,28 @@ Edit `k8s/configmap.yaml` to customize environment variables. The ingress assume
 
 ```
 src/app/
-├── __init__.py         # Package init
-├── config.py           # Settings via pydantic-settings
-├── events.py           # SocketIO event handlers
-├── logging_config.py   # Logging setup
-└── main.py             # Server entry point
+├── __init__.py              # Package init
+├── config.py                # Settings via pydantic-settings
+├── connection_manager.py    # Connection tracking
+├── events.py                # SocketIO event handlers
+├── logging_config.py        # Logging setup
+└── main.py                  # Server entry point
+
+dashboard/
+├── dashboard/
+│   ├── __init__.py          # Package init
+│   └── dashboard.py         # Reflex web dashboard
+├── rxconfig.py              # Reflex configuration
+└── requirements.txt         # Dashboard dependencies
 
 k8s/
-├── configmap.yaml      # Kubernetes ConfigMap
-├── deployment.yaml     # Kubernetes Deployment
-├── service.yaml        # Kubernetes Service
-└── ingress.yaml        # Kubernetes Ingress
+├── configmap.yaml           # Kubernetes ConfigMap
+├── deployment.yaml          # Kubernetes Deployment
+├── service.yaml             # Kubernetes Service
+└── ingress.yaml             # Kubernetes Ingress
 
 tests/
-└── test_main.py        # Tests
+└── test_main.py             # Tests
 ```
 
 ## License

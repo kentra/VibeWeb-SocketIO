@@ -5,6 +5,7 @@
 - ~~Docker support~~ - Added Dockerfile with multi-stage build
 - ~~Kubernetes deployment~~ - Added k8s manifests (ConfigMap, Deployment, Service, Ingress)
 - ~~Documentation~~ - Added README.md and CHANGELOG.md
+- ~~Admin Dashboard~~ - Added Reflex-based web dashboard for monitoring connections
 
 ## High Priority
 
@@ -60,10 +61,11 @@ sio = socketio.AsyncServer(
 
 ## Nice to Have
 
-### 8. Admin Dashboard
-- WebSocket-based admin interface
-- View connections, rooms, messages
-- Broadcast admin messages
+### 8. Dashboard Enhancements
+- Add ability to disconnect clients from dashboard
+- Add message broadcasting from dashboard
+- Show message statistics and graphs
+- Add authentication for dashboard access
 
 ### 9. Message Persistence
 - Store messages in database
