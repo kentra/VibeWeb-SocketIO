@@ -16,21 +16,21 @@ spec:
     spec:
       containers:
         - name: socketio
-          image: vibeweb-socketio:latest
+          image: harbor-netmgmt.helsemn.no/netweb/vibeweb-socketio:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8000
+            - containerPort: 5556
           envFrom:
             - configMapRef:
                 name: vibeweb-socketio-config
           livenessProbe:
             tcpSocket:
-              port: 8000
+              port: 5556
             initialDelaySeconds: 5
             periodSeconds: 10
           readinessProbe:
             tcpSocket:
-              port: 8000
+              port: 5556
             initialDelaySeconds: 5
             periodSeconds: 10
           resources:

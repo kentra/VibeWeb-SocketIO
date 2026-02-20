@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: socketio.example.com
+    - host: netweb-socketio.helsemn.no
       http:
         paths:
           - path: /
@@ -18,4 +18,4 @@ spec:
               service:
                 name: vibeweb-socketio
                 port:
-                  number: 8000
+                  number: 5556
