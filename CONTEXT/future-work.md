@@ -5,6 +5,9 @@
 - ~~Docker support~~ - Added Dockerfile with multi-stage build
 - ~~Kubernetes deployment~~ - Added k8s manifests (ConfigMap, Deployment, Service, Ingress)
 - ~~Documentation~~ - Added README.md and CHANGELOG.md
+- ~~Web dashboard~~ - Added dashboard at `/` showing active connections with client IPs
+- ~~Connection tracking~~ - Added ConnectionManager to track sessions and room membership
+- ~~Test coverage~~ - Added 38 tests across 4 test files
 
 ## High Priority
 
@@ -47,11 +50,9 @@ sio = socketio.AsyncServer(
 - Monitor performance
 
 ### 6. Health Check Endpoint
-- Add HTTP health check route (current `ping` is SocketIO event)
+- Add HTTP `/health` endpoint for Kubernetes probes
 - Return server status, connection count
-- Useful for load balancers and Kubernetes probes
-
-**Note:** Kubernetes currently uses TCP socket probes. HTTP endpoint would be better.
+- Current dashboard at `/` serves this purpose partially
 
 ### 7. Namespace Support
 - Currently only root namespace `/`
@@ -60,10 +61,14 @@ sio = socketio.AsyncServer(
 
 ## Nice to Have
 
-### 8. Admin Dashboard
-- WebSocket-based admin interface
-- View connections, rooms, messages
-- Broadcast admin messages
+### 8. Admin Dashboard Enhancements
+**Current:** Basic web dashboard exists at `/` showing connections
+**Future improvements:**
+- Real-time WebSocket updates (currently polls every 5s)
+- Ability to disconnect clients from dashboard
+- Broadcast admin messages to all clients
+- View message traffic/logs
+- Authentication for dashboard access
 
 ### 9. Message Persistence
 - Store messages in database
@@ -112,9 +117,11 @@ class ChatHandlers:
 ## Testing Improvements
 
 ### Integration Tests
-- Add async tests for event handlers
-- Test room operations
-- Test with mock clients
+**Current:** Unit tests exist for connections, dashboard, events
+**Future:**
+- Add integration tests with actual SocketIO client
+- Test full connection lifecycle
+- Test room operations end-to-end
 
 ### Load Testing
 - Add locust or artillery tests

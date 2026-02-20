@@ -24,20 +24,30 @@ uv run python -m app.main
 uv run server
 ```
 
-Server runs at `http://0.0.0.0:8000`
+Server runs at `http://0.0.0.0:5556`
+
+Web dashboard available at `http://localhost:5556/` showing active connections.
 
 ## Testing
 
 ```bash
-# Run all tests
+# Run all tests (38 tests across 4 test files)
 uv run pytest tests/ -v
 
-# Run specific test
-uv run pytest tests/test_main.py -v
+# Run specific test file
+uv run pytest tests/test_connections.py -v
+uv run pytest tests/test_dashboard.py -v
+uv run pytest tests/test_events.py -v
 
 # Run with coverage (if needed)
 uv run pytest tests/ --cov=app
 ```
+
+### Test Files
+- `test_connections.py` - Tests for ConnectionManager and Connection dataclass
+- `test_dashboard.py` - Tests for HTML dashboard and JSON API
+- `test_events.py` - Tests for event logic, validation, and response formats
+- `test_main.py` - Tests for app creation and settings
 
 ## Linting
 
@@ -102,10 +112,10 @@ sio.emit("message", {"text": "hello"})
 docker build -t vibeweb-socketio:latest .
 
 # Run container locally
-docker run -p 8000:8000 vibeweb-socketio:latest
+docker run -p 5556:5556 vibeweb-socketio:latest
 
 # Run with custom config
-docker run -p 8000:8000 -e SOCKETIO_LOGGER_LEVEL=DEBUG vibeweb-socketio:latest
+docker run -p 5556:5556 -e SOCKETIO_LOGGER_LEVEL=DEBUG vibeweb-socketio:latest
 ```
 
 ## Kubernetes Deployment
@@ -134,7 +144,7 @@ Edit `k8s/configmap.yaml` to change environment variables:
 ```yaml
 data:
   SOCKETIO_HOST: "0.0.0.0"
-  SOCKETIO_PORT: "8000"
+  SOCKETIO_PORT: "5556"
   SOCKETIO_CORS_ORIGINS: "*"
 ```
 

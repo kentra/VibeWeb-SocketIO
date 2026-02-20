@@ -242,7 +242,10 @@ k8s/
 └── ingress.yaml        # Kubernetes Ingress
 
 tests/
-└── test_main.py        # Tests
+├── test_connections.py   # Connection manager tests
+├── test_dashboard.py     # Dashboard and API tests
+├── test_events.py        # Event logic tests
+└── test_main.py          # Main app tests
 ```
 
 ## License

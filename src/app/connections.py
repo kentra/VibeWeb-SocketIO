@@ -1,12 +1,12 @@
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import UTC, datetime
 
 
 @dataclass
 class Connection:
     sid: str
     client_ip: str = ""
-    connected_at: datetime = field(default_factory=datetime.utcnow)
+    connected_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     rooms: set[str] = field(default_factory=set)
 
 

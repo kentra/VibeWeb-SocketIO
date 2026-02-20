@@ -7,7 +7,7 @@ All configuration is via environment variables prefixed with `SOCKETIO_`.
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
 | `SOCKETIO_HOST` | str | `0.0.0.0` | Server bind address |
-| `SOCKETIO_PORT` | int | `8000` | Server port |
+| `SOCKETIO_PORT` | int | `5556` | Server port |
 | `SOCKETIO_CORS_ORIGINS` | str | `*` | Allowed CORS origins (comma-separated or `*`) |
 | `SOCKETIO_CORS_METHODS` | str | `GET,POST,PUT,DELETE,OPTIONS` | Allowed HTTP methods |
 | `SOCKETIO_CORS_HEADERS` | str | `Content-Type,Authorization` | Allowed headers |
@@ -17,7 +17,9 @@ All configuration is via environment variables prefixed with `SOCKETIO_`.
 | `SOCKETIO_MAX_HTTP_BUFFER_SIZE` | int | `1000000` | Max HTTP buffer size (1MB) |
 | `SOCKETIO_ASYNC_MODE` | str | `asgi` | Async mode (don't change) |
 | `SOCKETIO_LOGGER_LEVEL` | str | `INFO` | Log level (DEBUG, INFO, WARNING, ERROR) |
+| `SOCKETIO_JSON_SERIALIZER` | str | `None` | Custom JSON serializer import path |
 | `SOCKETIO_ALWAYS_CONNECT` | bool | `False` | Connect without waiting for auth |
+| `SOCKETIO_NAMESPACES` | str | `/` | Allowed namespaces |
 
 ## Configuration File
 
@@ -29,7 +31,7 @@ cp .env.example .env
 Example `.env`:
 ```env
 SOCKETIO_HOST=0.0.0.0
-SOCKETIO_PORT=8000
+SOCKETIO_PORT=5556
 SOCKETIO_CORS_ORIGINS=http://localhost:3000,https://example.com
 SOCKETIO_LOGGER_LEVEL=DEBUG
 ```
@@ -41,7 +43,7 @@ Access in code:
 from app.config import settings
 
 print(settings.host)          # "0.0.0.0"
-print(settings.port)          # 8000
+print(settings.port)          # 5556
 print(settings.cors_origins_list)  # ["*"] or parsed list
 ```
 

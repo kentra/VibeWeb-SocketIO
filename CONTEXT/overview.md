@@ -15,6 +15,8 @@ Production-ready SocketIO server built with Python, python-socketio, and uvicorn
 src/app/
 ├── __init__.py         # Package init, version
 ├── config.py           # Settings via pydantic-settings
+├── connections.py      # Connection manager for tracking active sessions
+├── dashboard.py        # Web dashboard and HTTP API endpoints
 ├── events.py           # SocketIO event handlers
 ├── logging_config.py   # Logging setup
 └── main.py             # Server creation and entry point
@@ -26,7 +28,10 @@ k8s/
 └── ingress.yaml        # Kubernetes Ingress
 
 tests/
-└── test_main.py        # Basic tests
+├── test_connections.py # Connection manager tests
+├── test_dashboard.py   # Dashboard and API tests
+├── test_events.py      # Event logic tests
+└── test_main.py        # Main app tests
 
 CONTEXT/                 # LLM context documentation
 ```
@@ -56,7 +61,7 @@ uv run ruff check src/
 docker build -t vibeweb-socketio:latest .
 
 # Run container
-docker run -p 8000:8000 vibeweb-socketio:latest
+docker run -p 5556:5556 vibeweb-socketio:latest
 ```
 
 ## Kubernetes
@@ -71,7 +76,7 @@ kubectl get pods -l app=vibeweb-socketio
 
 ## Default Configuration
 - Host: `0.0.0.0`
-- Port: `8000`
+- Port: `5556`
 - CORS: All origins (`*`)
 - Ping timeout: 60s
 - Ping interval: 25s

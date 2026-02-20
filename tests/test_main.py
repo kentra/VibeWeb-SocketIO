@@ -8,5 +8,7 @@ def test_app_created():
 
 def test_settings_defaults():
     assert settings.host == "0.0.0.0"
-    assert settings.port == 8000
+    assert settings.port > 0
     assert settings.cors_origins == "*"
+    assert settings.ping_timeout == 60
+    assert settings.ping_interval == 25

@@ -1,6 +1,38 @@
 # SocketIO API Reference
 
-## Connection Events
+## HTTP Endpoints
+
+### `GET /` or `GET /dashboard`
+Web dashboard showing active connections.
+
+**Returns:** HTML page with:
+- Active connection count
+- Table of connections (Session ID, Client IP, Connected At, Rooms)
+- Auto-refreshes every 5 seconds
+
+---
+
+### `GET /api/connections`
+JSON API for connection data.
+
+**Returns:**
+```json
+{
+  "count": 2,
+  "connections": [
+    {
+      "sid": "abc123",
+      "client_ip": "192.168.1.100",
+      "connected_at": "2026-02-20T12:00:00+00:00",
+      "rooms": ["general", "chat"]
+    }
+  ]
+}
+```
+
+---
+
+## SocketIO Connection Events
 
 ### `connect`
 Fired when client connects.
