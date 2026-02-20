@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Web dashboard at `/` to view active SocketIO connections in real-time
+- `/api/connections` JSON endpoint for programmatic access to connection data
+- Client IP address display in dashboard (supports X-Forwarded-For proxy header)
+- `connections.py` - Connection manager to track active sessions and room membership
+- `dashboard.py` - HTTP handler for serving the web dashboard
+- Dashboard auto-refreshes every 5 seconds
 - CHANGELOG.md for tracking project changes
 - `.dockerignore` for optimized Docker builds
 - Updated CONTEXT documentation with Docker and Kubernetes sections

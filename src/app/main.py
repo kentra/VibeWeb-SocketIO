@@ -8,6 +8,7 @@ from uvicorn.config import Config
 from uvicorn.server import Server
 
 from app.config import settings
+from app.dashboard import dashboard_app
 from app.events import register_events
 from app.logging_config import logger
 
@@ -37,7 +38,7 @@ async def lifespan(sio: socketio.AsyncServer) -> AsyncIterator[None]:
 
 def create_app() -> socketio.ASGIApp:
     sio = create_socketio_server()
-    app = socketio.ASGIApp(sio)
+    app = socketio.ASGIApp(sio, other_asgi_app=dashboard_app)
     return app
 
 

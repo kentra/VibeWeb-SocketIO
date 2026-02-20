@@ -7,6 +7,7 @@ A production-ready Socket.IO server built with Python for real-time bidirectiona
 - Real-time bidirectional communication via Socket.IO
 - Room-based messaging for group communication
 - Broadcast messaging to all connected clients
+- Web dashboard to monitor active connections
 - Configurable CORS support
 - Graceful shutdown handling
 - Health check via ping/pong
@@ -65,6 +66,20 @@ uv run python -m app.main
 ```
 
 The server will start at `http://0.0.0.0:8000` by default.
+
+### Web Dashboard
+
+Access the dashboard at `http://localhost:8000/` to view:
+- Number of active connections
+- Session IDs and client IP addresses
+- Connection times
+- Rooms each client has joined
+
+The dashboard auto-refreshes every 5 seconds. You can also fetch connection data programmatically:
+
+```bash
+curl http://localhost:8000/api/connections
+```
 
 ### Development
 
@@ -214,6 +229,8 @@ Edit `k8s/configmap.yaml` to customize environment variables. The ingress assume
 src/app/
 ├── __init__.py         # Package init
 ├── config.py           # Settings via pydantic-settings
+├── connections.py      # Connection manager for tracking sessions
+├── dashboard.py        # Web dashboard HTTP handler
 ├── events.py           # SocketIO event handlers
 ├── logging_config.py   # Logging setup
 └── main.py             # Server entry point

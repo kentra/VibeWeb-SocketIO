@@ -2,6 +2,7 @@ from typing import Any
 
 import socketio
 
+from app.connections import manager
 from app.logging_config import logger
 
 
@@ -11,8 +12,12 @@ def register_events(sio: socketio.AsyncServer) -> None:
         logger.info(f"Client connecting: {sid}")
         if auth:
             logger.debug(f"Auth data for {sid}: {auth}")
+        client_ip = environ.get("HTTP_X_FORWARDED_FOR", environ.get("REMOTE_ADDR", ""))
+        if "," in client_ip:
+            client_ip = client_ip.split(",")[0].strip()
+        manager.add(sid, client_ip)
         await sio.save_session(sid, {"connected": True})
-        logger.info(f"Client connected: {sid}")
+        logger.info(f"Client connected: {sid} from {client_ip}")
         return True
 
     @sio.event
@@ -21,6 +26,7 @@ def register_events(sio: socketio.AsyncServer) -> None:
         session = await sio.get_session(sid)
         if session:
             logger.debug(f"Session data for {sid}: {session}")
+        manager.remove(sid)
         logger.info(f"Client disconnected: {sid}")
 
     @sio.event
@@ -33,6 +39,7 @@ def register_events(sio: socketio.AsyncServer) -> None:
     async def join_room(sid: str, room: str) -> dict[str, str]:
         logger.info(f"Client {sid} joining room: {room}")
         await sio.enter_room(sid, room)
+        manager.add_room(sid, room)
         await sio.emit("room_joined", {"room": room, "sid": sid}, to=room)
         return {"status": "joined", "room": room}
 
@@ -40,6 +47,7 @@ def register_events(sio: socketio.AsyncServer) -> None:
     async def leave_room(sid: str, room: str) -> dict[str, str]:
         logger.info(f"Client {sid} leaving room: {room}")
         await sio.leave_room(sid, room)
+        manager.remove_room(sid, room)
         await sio.emit("room_left", {"room": room, "sid": sid}, to=room)
         return {"status": "left", "room": room}
 
